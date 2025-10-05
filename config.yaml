@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=./node_modules/envio/evm.schema.json
+name: envio-indexer
+networks:
+  - id: 7225878
+    start_block: 25497376
+    contracts:
+      - name: TaffyFactory
+        address:
+          - 0xb9FFd4f89A86a989069CAcaE90e9ce824D0c4971
+        handler: src/Dex/DexEventHandlersFactory.ts
+        events:
+          - event: PairCreated(address indexed token0, address indexed token1, address pair, uint256)
+      - name: TaffyPair
+        address:
+        handler: src/Dex/DexEventHandlersAsync.ts
+        events:
+          - event: Approval(address indexed owner, address indexed spender, uint256 value)
+          - event: Burn(address indexed sender, uint256 amount0, uint256 amount1, address indexed to)
+          - event: Mint(address indexed sender, uint256 amount0, uint256 amount1)
+          - event: Swap(address indexed sender, uint256 amount0In, uint256 amount1In, uint256 amount0Out, uint256 amount1Out, address indexed to)
+          - event: Sync(uint112 reserve0, uint112 reserve1)
+          - event: Transfer(address indexed from, address indexed to, uint256 value)
+      - name: TaffyStakingRewardsFactory
+        address:
+          - 0xB5452B5fC8Fd563Be86096ee347abF4E9e161AeF
+        handler: src/Staking/StakingEventHandlersFactory.ts
+        events:
+          - event: DistributionCreated(address owner, address deployedAt)
+      - name: TaffyStakingRewards
+        address:
+        handler: src/Staking/StakingEventHandlers.ts
+        events:
+          - event: Canceled()
+          - event: Claimed(address indexed claimer, uint256[] amounts)
+          - event: Initialized(address[] rewardsTokenAddresses, address stakableTokenAddress, uint256[] rewardsAmounts, uint64 startingTimestamp, uint64 endingTimestamp, bool locked, uint256 stakingCap)
+          - event: OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
+          - event: Recovered(uint256[] amounts)
+          - event: RecoveredAfterCancel(address token, uint256 amount)
+          - event: Staked(address indexed staker, uint256 amount)
+          - event: UpdatedRewards(uint256[] amounts, address contributor)
+          - event: Withdrawn(address indexed withdrawer, uint256 amount)
+unordered_multichain_mode: true
+preload_handlers: true
+event_decoder: viem
+field_selection:
+  transaction_fields:
+    - "hash"
+    - "from"
