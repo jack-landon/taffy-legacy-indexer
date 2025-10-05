@@ -17,34 +17,6 @@ export function isAddress(address: string): address is Address {
   return address.startsWith("0x");
 }
 
-// export async function getErc20(address: `0x${string}`) {
-//   const [name, symbol, decimals, totalSupply] = (await Promise.all([
-//     publicClient.readContract({
-//       address,
-//       abi: erc20Abi,
-//       functionName: "name",
-//     }),
-//     publicClient.readContract({
-//       address,
-//       abi: erc20Abi,
-//       functionName: "symbol",
-//     }),
-//     publicClient.readContract({
-//       address,
-//       abi: erc20Abi,
-//       functionName: "decimals",
-//     }),
-//     publicClient.readContract({
-//       address,
-//       abi: erc20Abi,
-//       functionName: "totalSupply",
-//     }),
-//   ])) as [string, string, bigint, bigint];
-
-//   console.log("Token: ", { name, symbol, decimals, totalSupply });
-//   return { address, name, symbol, decimals, totalSupply };
-// }
-
 export async function getErc20(address: `0x${string}`) {
   let [name, symbol, decimals, totalSupply] = (await Promise.all([
     publicClient.readContract({
