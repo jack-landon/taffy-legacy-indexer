@@ -2,8 +2,7 @@ import { BigDecimal } from "generated";
 
 export const ADDRESS_ZERO = "0x0000000000000000000000000000000000000000";
 export const FACTORY_ADDRESS = "0xb9FFd4f89A86a989069CAcaE90e9ce824D0c4971"; // created block 25422409
-export const STAKING_FACTORY_ADDRESS =
-  "0xB5452B5fC8Fd563Be86096ee347abF4E9e161AeF";
+
 export const WETH_ADDRESS = "0x557a526472372f1F222EcC6af8818C1e6e78A85f";
 export const DAI_WETH_PAIR = ""; // created block ??
 export const USDC_WETH_PAIR = "0x44c3d92308879eFbA1238045F495374E70cE7B80"; // created 27749185

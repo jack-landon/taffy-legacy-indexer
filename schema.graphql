@@ -51,10 +51,6 @@ type Token {
   pairDayDataQuote: [PairDayData!]! @derivedFrom(field: "token1")
   pairBase: [Pair!]! @derivedFrom(field: "token0")
   pairQuote: [Pair!]! @derivedFrom(field: "token1")
-
-  # Staking
-  asStakingToken: [StakeDistribution!]! @derivedFrom(field: "stakingToken")
-  asReward: [StakeReward!]! @derivedFrom(field: "token")
 }
 
 type Pair {
@@ -98,7 +94,6 @@ type Pair {
 type User {
   id: ID!
   usdSwapped: BigDecimal!
-  ownerPools: [StakeDistribution!]! @derivedFrom(field: "owner")
 }
 
 type Transaction {
@@ -259,163 +254,4 @@ type TokenDayData {
   totalLiquidityUSD: BigDecimal!
   # price stats
   priceUSD: BigDecimal!
-}
-
-#  _____ _____ ___   _   _______ _   _ _____
-# /  ___|_   _/ _ \ | | / /_   _| \ | |  __ \
-# \ `--.  | |/ /_\ \| |/ /  | | |  \| | |  \/
-#  `--. \ | ||  _  ||    \  | | | . ` | | __
-# /\__/ / | || | | || |\  \_| |_| |\  | |_\ \
-# \____/  \_/\_| |_/\_| \_/\___/\_| \_/\____/
-
-type StakeFactory {
-  # factory address
-  id: ID!
-
-  # pair info
-  poolCount: Int!
-
-  # transactions
-  txCount: BigInt!
-}
-
-type StakeDistribution {
-  # distribution address
-  id: ID!
-
-  startTimestamp: Int!
-  endTimestamp: Int!
-
-  owner: User
-  stakingToken: Token!
-  rewards: [StakeReward!]! @derivedFrom(field: "distribution")
-  locked: Boolean!
-  stakingCap: BigDecimal!
-
-  canceled: Boolean!
-  canceledTimestamp: Int
-  canceledBlockNumber: Int
-
-  amountStaked: BigDecimal!
-  depositsCount: BigInt!
-  withdrawCount: BigInt!
-  claimsCount: BigInt!
-  contributionCount: BigInt!
-
-  # creation stats
-  createdAtTimestamp: Int!
-  createdAtBlockNumber: Int!
-
-  txCount: BigInt!
-
-  # derived fields
-  deposits: [StakeDeposit!]! @derivedFrom(field: "distribution")
-  withdraws: [StakeWithdraw!]! @derivedFrom(field: "distribution")
-  claims: [StakeClaim!]! @derivedFrom(field: "distribution")
-}
-
-type StakeReward {
-  # poolAddress + "-" + index of rewards in pool
-  id: ID!
-
-  distribution: StakeDistribution!
-  rewardIndex: Int!
-
-  token: Token!
-  amount: BigDecimal!
-}
-
-type StakeDeposit {
-  # stakingContractAddress + "-" + index of deposits in staking contract
-  id: ID!
-
-  depositor: User!
-  distribution: StakeDistribution!
-
-  amount: BigDecimal!
-  timestamp: Int!
-  blockNumber: Int!
-}
-
-type StakeWithdraw {
-  # stakingContractAddress + "-" + index of withdraws in staking contract
-  id: ID!
-
-  withdrawer: User!
-  distribution: StakeDistribution!
-
-  amount: BigDecimal!
-  timestamp: Int!
-  blockNumber: Int!
-}
-
-type StakeClaim {
-  # stakingContractAddress + "-" + index of claims in staking contract
-  id: ID!
-
-  claimer: User!
-  distribution: StakeDistribution!
-
-  amounts: [BigDecimal!]!
-  timestamp: Int!
-  blockNumber: Int!
-}
-
-type StakeCancel {
-  id: ID!
-
-  canceler: User
-  distribution: StakeDistribution!
-
-  timestamp: Int!
-  blockNumber: Int!
-}
-
-type StakeOwnershipTransfer {
-  id: ID!
-
-  previousOwner: User!
-  newOwner: User!
-
-  timestamp: Int!
-  blockNumber: Int!
-}
-
-type StakeRecovery {
-  id: ID!
-
-  recoverer: User!
-  distribution: StakeDistribution!
-
-  amounts: [BigDecimal!]!
-  timestamp: Int!
-  blockNumber: Int!
-}
-
-type StakeRecoveryAfterCancel {
-  id: ID!
-
-  recoverer: User!
-  distribution: StakeDistribution!
-
-  token: Token!
-  amount: BigDecimal!
-  timestamp: Int!
-  blockNumber: Int!
-}
-
-type StakeContribution {
-  # stakingContractAddress + "-" + index of contribution in staking contract
-  id: ID!
-
-  distribution: StakeDistribution!
-
-  contributor: User
-  updatedAmounts: [BigDecimal!]!
-
-  diffTokenAddresses: [String!]!
-  diffAmounts: [BigDecimal!]!
-
-  timestamp: Int!
-  blockNumber: Int!
 }

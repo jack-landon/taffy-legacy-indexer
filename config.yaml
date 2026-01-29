@@ -20,25 +20,6 @@ networks:
           - event: Swap(address indexed sender, uint256 amount0In, uint256 amount1In, uint256 amount0Out, uint256 amount1Out, address indexed to)
           - event: Sync(uint112 reserve0, uint112 reserve1)
           - event: Transfer(address indexed from, address indexed to, uint256 value)
-      - name: TaffyStakingRewardsFactory
-        address:
-          - 0xB5452B5fC8Fd563Be86096ee347abF4E9e161AeF
-        handler: src/Staking/StakingEventHandlersFactory.ts
-        events:
-          - event: DistributionCreated(address owner, address deployedAt)
-      - name: TaffyStakingRewards
-        address:
-        handler: src/Staking/StakingEventHandlers.ts
-        events:
-          - event: Canceled()
-          - event: Claimed(address indexed claimer, uint256[] amounts)
-          - event: Initialized(address[] rewardsTokenAddresses, address stakableTokenAddress, uint256[] rewardsAmounts, uint64 startingTimestamp, uint64 endingTimestamp, bool locked, uint256 stakingCap)
-          - event: OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
-          - event: Recovered(uint256[] amounts)
-          - event: RecoveredAfterCancel(address token, uint256 amount)
-          - event: Staked(address indexed staker, uint256 amount)
-          - event: UpdatedRewards(uint256[] amounts, address contributor)
-          - event: Withdrawn(address indexed withdrawer, uint256 amount)
 unordered_multichain_mode: true
 preload_handlers: true
 event_decoder: viem
