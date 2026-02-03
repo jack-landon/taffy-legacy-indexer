@@ -1,0 +1,64 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      { "name": "_taffyToken", "type": "address", "internalType": "address" },
+      {
+        "name": "_taffyDistributor",
+        "type": "address",
+        "internalType": "address"
+      },
+      { "name": "_taffyVoting", "type": "address", "internalType": "address" }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "deployStakingPool",
+    "inputs": [
+      { "name": "_stakingToken", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "implementation",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "isStakingPool",
+    "inputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "event",
+    "name": "StakingPoolDeployed",
+    "inputs": [
+      {
+        "name": "poolAddress",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "stakingToken",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "creator",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  { "type": "error", "name": "ERC1167FailedCreateClone", "inputs": [] }
+]

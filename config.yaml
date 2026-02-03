@@ -20,6 +20,65 @@ networks:
           - event: Swap(address indexed sender, uint256 amount0In, uint256 amount1In, uint256 amount0Out, uint256 amount1Out, address indexed to)
           - event: Sync(uint112 reserve0, uint112 reserve1)
           - event: Transfer(address indexed from, address indexed to, uint256 value)
+      - name: TaffyLocking
+        address:
+          - 0xFE37A5f2d570f9996d2BDFd7959D51544B076C8c
+        handler: src/Locking/LockingEventHandlers.ts
+        events:
+          - event: Approval(address indexed owner, address indexed approved, uint256 indexed tokenId)
+          - event: ApprovalForAll(address indexed owner, address indexed operator, bool approved)
+          - event: BatchMetadataUpdate(uint256 indexed _fromTokenId, uint256 indexed _toTokenId)
+          - event: Deposit(uint256 indexed tokenId, address indexed provider, uint8 indexed depositType, uint256 amount, uint256 firstEpoch, uint256 finalEpoch, uint256 votingPower)
+          - event: EIP712DomainChanged()
+          - event: MetadataUpdate(uint256 indexed _tokenId)
+          - event: Transfer(address indexed from, address indexed to, uint256 indexed tokenId)
+          - event: Withdraw(address indexed provider, uint256 indexed tokenId, uint256 indexed value)
+      - name: TaffyVoting
+        address:
+          - 0x52e8eeb71c3625974B3B6Ca4b497DCf3a416Bf17
+        handler: src/Locking/VotingEventHandlers.ts
+        events:
+          - event: GovernanceUpdate(address indexed newGovernance)
+          - event: MultiplierSetterUpdate(address indexed newMultiplierSetter)
+          - event: MultipliersUpdated(address[] voters, uint256[] multipliers)
+          - event: NextEpochSet(uint256 indexed nextEpoch, address[] nextEpochPools, uint256 indexed nextEpochEmissions, uint256 indexed nextEpochStartTimestamp, uint256 nextEpochEndTimestamp)
+          - event: VoteCast(uint256 indexed voteId, address indexed voter, uint256 indexed epoch, uint256 votingPower, uint256 voteConfigId)
+          - event: VoteConfigCreated(uint256 indexed voteConfigId, address[] pools, uint256[] allocatedVotingPowers, uint256[] lockIds)
+          - event: VoteDeleted(uint256 indexed voteId, address indexed voter, uint256 indexed epoch, uint256 existingVoteConfigId)
+          - event: WhitelistedPoolsUpdated(address[] newWhitelistedPools, uint256 indexed epoch)
+      - name: TaffyDistributor
+        address:
+          - 0xF200FB053F397dd50F97311B8982eCFb0A6C56DA
+        handler: src/Locking/DistributorEventHandlers.ts
+        events:
+          - event: EpochEmissionToPools(uint256 indexed epoch, uint256 indexed amount, address[] pools, uint256[] poolEmission, uint256[] poolVotingPower)
+      - name: TaffyStakingPoolFactory
+        address:
+          - 0xD2A3D3eCc471FD6db4115f76F0dd0Bb29b5d6669
+        handler: src/Locking/StakingPoolEventHandlers.ts
+        events:
+          - event: StakingPoolDeployed(address indexed poolAddress, address indexed stakingToken, address indexed creator)
+      - name: TaffyStakingPool
+        address:
+        handler: src/Locking/StakingPoolEventHandlers.ts
+        events:
+          - event: Initialized(address indexed stakingToken, address indexed creator)
+          - event: Recovered(address indexed token, uint256 indexed amount)
+          - event: RewardAmountAdded(address indexed rewardToken, uint256 indexed rewardAmountAdded, uint256 newTotalAmount, uint256 newRewardRate, uint256 indexed newPeriodFinish)
+          - event: RewardPaid(address indexed account, address indexed rewardsToken, uint256 indexed reward)
+          - event: RewardTokenRegistered(address indexed rewardToken, address indexed rewardsDistributor)
+          - event: RewardsDurationUpdated(address indexed token, uint256 indexed newDuration)
+          - event: Staked(address indexed account, uint256 indexed amount)
+          - event: Withdrawn(address indexed account, uint256 indexed amount)
+      - name: TaffyFeeManager
+        address:
+          - 0x5682b4e18C734c9dFfE81b49A9D1be421c0f4947
+        handler: src/Locking/FeeManagerEventHandlers.ts
+        events:
+          - event: FeeClaimed(address indexed voter, address indexed feeToken, uint256 indexed epoch, uint256 amount)
+          - event: FeeRecorded(address indexed feeToken, uint256 indexed epoch, uint256 indexed amount)
+          - event: ValidatedFeeToken(address indexed feeToken, address indexed token0, address indexed token1)
+          - event: NewFeeManager(address indexed newFeeManager)
 unordered_multichain_mode: true
 preload_handlers: true
 event_decoder: viem

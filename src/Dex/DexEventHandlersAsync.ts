@@ -49,6 +49,9 @@ TaffyPair.Transfer.handler(async ({ event, context }) => {
       fromUser = {
         id: from,
         usdSwapped: ZERO_BD,
+        claimedRewards: BigInt(0),
+        multiplier: BigInt(0),
+        unclaimedRewards: BigInt(0),
       };
       context.User.set(fromUser);
     }
@@ -56,6 +59,9 @@ TaffyPair.Transfer.handler(async ({ event, context }) => {
       toUser = {
         id: to,
         usdSwapped: ZERO_BD,
+        claimedRewards: BigInt(0),
+        multiplier: BigInt(0),
+        unclaimedRewards: BigInt(0),
       };
       context.User.set(toUser);
     }

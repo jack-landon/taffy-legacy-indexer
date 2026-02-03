@@ -1,0 +1,581 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      { "name": "_taffyToken", "type": "address", "internalType": "address" },
+      {
+        "name": "_taffyDistributor",
+        "type": "address",
+        "internalType": "address"
+      },
+      { "name": "_votingAddress", "type": "address", "internalType": "address" }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "addFutureWhitelistEpoch",
+    "inputs": [
+      { "name": "_epoch", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "addRewards",
+    "inputs": [
+      { "name": "_rewardsToken", "type": "address", "internalType": "address" },
+      { "name": "_rewardAmount", "type": "uint256", "internalType": "uint256" },
+      {
+        "name": "_newPeriodFinish",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "balanceOf",
+    "inputs": [
+      { "name": "account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "claim",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "claimFor",
+    "inputs": [
+      { "name": "_claimer", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "claimSpecificReward",
+    "inputs": [
+      { "name": "_rewardsToken", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "creator",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "earned",
+    "inputs": [
+      { "name": "account", "type": "address", "internalType": "address" },
+      { "name": "_rewardsToken", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "earnedAllRewards",
+    "inputs": [
+      { "name": "_account", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [
+      {
+        "name": "_rewardAddresses",
+        "type": "address[]",
+        "internalType": "address[]"
+      },
+      {
+        "name": "_rewardsEarned",
+        "type": "uint256[]",
+        "internalType": "uint256[]"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getFutureWhitelistEpochs",
+    "inputs": [],
+    "outputs": [
+      { "name": "", "type": "uint256[]", "internalType": "uint256[]" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getRewardTokens",
+    "inputs": [],
+    "outputs": [
+      { "name": "", "type": "address[]", "internalType": "address[]" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "i_factory",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "i_taffyDistributor",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "i_taffyToken",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "i_votingAddress",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "initialize",
+    "inputs": [
+      { "name": "_stakingToken", "type": "address", "internalType": "address" },
+      { "name": "_creator", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "isRewardToken",
+    "inputs": [
+      { "name": "_rewardAddress", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "isWhitelistable",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "lastTimeRewardApplicable",
+    "inputs": [
+      { "name": "_rewardsToken", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "makePoolWhitelistable",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "recoverERC20",
+    "inputs": [
+      { "name": "_tokenAddress", "type": "address", "internalType": "address" },
+      { "name": "_tokenAmount", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "registerRewardToken",
+    "inputs": [
+      { "name": "_rewardsToken", "type": "address", "internalType": "address" },
+      {
+        "name": "_rewardsDistributor",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "rewardData",
+    "inputs": [
+      { "name": "_reward", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct ITaffyStakingPool.Reward",
+        "components": [
+          {
+            "name": "rewardsDistributor",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "periodFinish",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "rewardRate",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "lastUpdateTime",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "rewardPerTokenStored",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          { "name": "isRegistered", "type": "bool", "internalType": "bool" }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "rewardPerToken",
+    "inputs": [
+      { "name": "_rewardsToken", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "rewardTokens",
+    "inputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "rewards",
+    "inputs": [
+      { "name": "", "type": "address", "internalType": "address" },
+      { "name": "", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "setFutureWhitelistEpochs",
+    "inputs": [
+      {
+        "name": "_newFutureWhitelistEpochs",
+        "type": "uint256[]",
+        "internalType": "uint256[]"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setRewardsDistributor",
+    "inputs": [
+      { "name": "_rewardsToken", "type": "address", "internalType": "address" },
+      {
+        "name": "_rewardsDistributor",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "stake",
+    "inputs": [
+      { "name": "amount", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "stakingToken",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "totalSupply",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "userRewardPerTokenPaid",
+    "inputs": [
+      { "name": "", "type": "address", "internalType": "address" },
+      { "name": "", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "withdraw",
+    "inputs": [
+      { "name": "amount", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "Initialized",
+    "inputs": [
+      {
+        "name": "stakingToken",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "creator",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Recovered",
+    "inputs": [
+      {
+        "name": "token",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RewardAmountAdded",
+    "inputs": [
+      {
+        "name": "rewardToken",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "rewardAmountAdded",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "newTotalAmount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "newRewardRate",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "newPeriodFinish",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RewardPaid",
+    "inputs": [
+      {
+        "name": "account",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "rewardsToken",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "reward",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RewardTokenRegistered",
+    "inputs": [
+      {
+        "name": "rewardToken",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "rewardsDistributor",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RewardsDurationUpdated",
+    "inputs": [
+      {
+        "name": "token",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "newDuration",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Staked",
+    "inputs": [
+      {
+        "name": "account",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Withdrawn",
+    "inputs": [
+      {
+        "name": "account",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  { "type": "error", "name": "AdditionOverflow", "inputs": [] },
+  {
+    "type": "error",
+    "name": "AddressEmptyCode",
+    "inputs": [
+      { "name": "target", "type": "address", "internalType": "address" }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "AddressInsufficientBalance",
+    "inputs": [
+      { "name": "account", "type": "address", "internalType": "address" }
+    ]
+  },
+  { "type": "error", "name": "AlreadyInitialized", "inputs": [] },
+  { "type": "error", "name": "AlreadyRegistered", "inputs": [] },
+  { "type": "error", "name": "DivisionByZero", "inputs": [] },
+  { "type": "error", "name": "FailedInnerCall", "inputs": [] },
+  { "type": "error", "name": "InvalidZeroAddress", "inputs": [] },
+  { "type": "error", "name": "MultiplicationOverflow", "inputs": [] },
+  { "type": "error", "name": "NotCreator", "inputs": [] },
+  { "type": "error", "name": "NotDistributor", "inputs": [] },
+  { "type": "error", "name": "NotFactory", "inputs": [] },
+  { "type": "error", "name": "NotFuture", "inputs": [] },
+  { "type": "error", "name": "NotInitialized", "inputs": [] },
+  {
+    "type": "error",
+    "name": "NotVotingContract",
+    "inputs": [
+      { "name": "votingAddress", "type": "address", "internalType": "address" }
+    ]
+  },
+  { "type": "error", "name": "ReentrancyGuardReentrantCall", "inputs": [] },
+  {
+    "type": "error",
+    "name": "SafeERC20FailedOperation",
+    "inputs": [
+      { "name": "token", "type": "address", "internalType": "address" }
+    ]
+  },
+  { "type": "error", "name": "SubtractionOverflow", "inputs": [] },
+  { "type": "error", "name": "UnableToRecoverRewardToken", "inputs": [] },
+  { "type": "error", "name": "UnableToRecoverStakingToken", "inputs": [] },
+  { "type": "error", "name": "ZeroAmount", "inputs": [] }
+]

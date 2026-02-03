@@ -94,6 +94,13 @@ type Pair {
 type User {
   id: ID!
   usdSwapped: BigDecimal!
+  locks: [Lock!]! @derivedFrom(field: "user")
+  votes: [Vote!]! @derivedFrom(field: "voter")
+  stakes: [Stake!]! @derivedFrom(field: "user")
+  feeClaims: [FeeClaimed!]! @derivedFrom(field: "claimer")
+  unclaimedRewards: BigInt!
+  claimedRewards: BigInt!
+  multiplier: BigInt!
 }
 
 type Transaction {
@@ -254,4 +261,146 @@ type TokenDayData {
   totalLiquidityUSD: BigDecimal!
   # price stats
   priceUSD: BigDecimal!
+}
+
+# LOCKING
+type LockingSystem {
+  id: ID!
+  amountLocked: BigInt!
+  currentEpoch: BigInt!
+}
+
+type Lock {
+  id: ID!
+  user: String!
+  firstEpoch: BigInt!
+  finalEpoch: BigInt!
+  amount: BigInt!
+  txHash: String!
+  votingPower: BigInt!
+  isSettled: Boolean!
+}
+
+type Vote {
+  id: ID!
+  voter: User!
+  epoch: Epoch!
+  votingPower: BigInt!
+  voteConfig: VoteConfig
+  isClaimed: Boolean
+  claimAmount: BigInt
+  claimTxHash: String
+}
+
+type VoteConfig {
+  id: ID!
+  votePoolAllocations: [VotePoolAllocation!]! @derivedFrom(field: "voteConfig")
+  locks: [BigInt!]!
+}
+
+type VotePoolAllocation {
+  id: ID! # voteConfigId + "-" + poolAddress
+  voteConfig: VoteConfig!
+  pool: StakingPool!
+  allocatedVotingPower: BigInt!
+  # poolEpoch: PoolEpoch!
+  # allocation: BigInt!
+}
+
+type Epoch {
+  id: ID!
+  number: Int!
+  isSettled: Boolean!
+  epochEmission: BigInt
+  totalVotingPower: BigInt!
+  poolEpochs: [PoolEpoch!]! @derivedFrom(field: "epoch")
+  votes: [Vote!]! @derivedFrom(field: "epoch")
+  feeLogs: [FeeLogged!]! @derivedFrom(field: "epoch")
+  feeClaims: [FeeClaimed!]! @derivedFrom(field: "epoch")
+}
+
+type PoolEpoch {
+  id: ID! # poolId + "-" + epoch
+  stakingPool: StakingPool!
+  epoch: Epoch!
+  votingPower: BigInt!
+  emissionAllocation: BigInt!
+}
+
+type Stake {
+  id: ID! # stakingPoolAddress + "-" + userAddress
+  user: User!
+  stakingPool: StakingPool!
+  amount: BigInt!
+}
+
+type StakingPool {
+  id: ID!
+  stakingToken: String!
+  creator: String
+  amountStaked: BigInt!
+  rewards: [Reward!]! @derivedFrom(field: "stakingPool")
+  stakes: [Stake!]! @derivedFrom(field: "stakingPool")
+  deposits: [Deposit!]! @derivedFrom(field: "stakingPool")
+  withdrawals: [Withdrawal!]! @derivedFrom(field: "stakingPool")
+  claims: [Claim!]! @derivedFrom(field: "stakingPool")
+  epochs: [PoolEpoch!]! @derivedFrom(field: "stakingPool")
+}
+
+type Reward {
+  id: ID! # stakingPoolAddress + "-" + tokenAddress
+  token: String!
+  distributor: String!
+  amount: BigInt!
+  endTimestamp: BigInt!
+  stakingPool: StakingPool!
+  rewardRate: BigInt!
+}
+
+type Deposit {
+  id: ID! # transactionHash + "-" + logIndex
+  user: User!
+  stakingPool: StakingPool!
+  amount: BigInt!
+  txHash: String!
+  timestamp: Int!
+}
+
+type Withdrawal {
+  id: ID! # transactionHash + "-" + logIndex
+  user: User!
+  stakingPool: StakingPool!
+  amount: BigInt!
+  txHash: String!
+  timestamp: Int!
+}
+
+type Claim {
+  id: ID! # transactionHash + "-" + logIndex
+  user: User!
+  token: String!
+  stakingPool: StakingPool!
+  reward: Reward!
+  amount: BigInt!
+  txHash: String!
+  timestamp: Int!
+}
+
+type FeeLogged {
+  id: ID! # feeToken + "-" + epoch
+  feeToken: String!
+  epoch: Epoch!
+  amount: BigInt!
+  txHash: String!
+  timestamp: Int!
+}
+
+type FeeClaimed {
+  id: ID! # feeToken + "-" + epoch "-" + claimerAddress
+  feeToken: String!
+  epoch: Epoch!
+  claimer: User!
+  amount: BigInt!
+  txHash: String!
+  timestamp: Int!
 }
