@@ -1,12 +1,12 @@
 # yaml-language-server: $schema=./node_modules/envio/evm.schema.json
-name: taffy-indexer-base-sepolia
+name: taffy-indexer-saakuru
 networks:
-  - id: 84532
-    start_block: 38799950
+  - id: 7225878
+    start_block: 25497376
     contracts:
       - name: TaffyFactory
         address:
-          - 0xF3a077C8B559776509EbD970986F951e0D40a902
+          - 0xb9FFd4f89A86a989069CAcaE90e9ce824D0c4971
         handler: src/Dex/DexEventHandlersFactory.ts
         events:
           - event: PairCreated(address indexed token0, address indexed token1, address pair, uint256)
@@ -22,7 +22,7 @@ networks:
           - event: Transfer(address indexed from, address indexed to, uint256 value)
       - name: TaffyLocking
         address:
-          - 0xDF360cA31f4728273C6Dd6c17a43419c532433C4
+          - 0xFE37A5f2d570f9996d2BDFd7959D51544B076C8c
         handler: src/Locking/LockingEventHandlers.ts
         events:
           - event: Approval(address indexed owner, address indexed approved, uint256 indexed tokenId)
@@ -35,7 +35,7 @@ networks:
           - event: Withdraw(address indexed provider, uint256 indexed tokenId, uint256 indexed value)
       - name: TaffyVoting
         address:
-          - 0x45d6412dDA65996895A84dd09Cf035A05AD0948a
+          - 0x52e8eeb71c3625974B3B6Ca4b497DCf3a416Bf17
         handler: src/Locking/VotingEventHandlers.ts
         events:
           - event: GovernanceUpdate(address indexed newGovernance)
@@ -48,13 +48,13 @@ networks:
           - event: WhitelistedPoolsUpdated(address[] newWhitelistedPools, uint256 indexed epoch)
       - name: TaffyDistributor
         address:
-          - 0xAD5842F60022216b93B873CD239983F5b4D4c8B8
+          - 0xF200FB053F397dd50F97311B8982eCFb0A6C56DA
         handler: src/Locking/DistributorEventHandlers.ts
         events:
           - event: EpochEmissionToPools(uint256 indexed epoch, uint256 indexed amount, address[] pools, uint256[] poolEmission, uint256[] poolVotingPower)
       - name: TaffyStakingPoolFactory
         address:
-          - 0xbdC4816998007D061Ae59d9b4d9e7Ac731e1184E
+          - 0xD2A3D3eCc471FD6db4115f76F0dd0Bb29b5d6669
         handler: src/Locking/StakingPoolEventHandlers.ts
         events:
           - event: StakingPoolDeployed(address indexed poolAddress, address indexed stakingToken, address indexed creator)
@@ -72,7 +72,7 @@ networks:
           - event: Withdrawn(address indexed account, uint256 indexed amount)
       - name: TaffyFeeManager
         address:
-          - 0xb3fb01cc25Bdd971728A511B3750c4FC536156D9
+          - 0x5682b4e18C734c9dFfE81b49A9D1be421c0f4947
         handler: src/Locking/FeeManagerEventHandlers.ts
         events:
           - event: FeeClaimed(address indexed voter, address indexed feeToken, uint256 indexed epoch, uint256 amount)

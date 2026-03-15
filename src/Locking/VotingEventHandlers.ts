@@ -1,6 +1,6 @@
 import { TaffyVoting } from "generated";
-import { ONE_BI, ZERO_BI } from "./helpers/constants";
 import { addUser, createEpoch, createLockingSystem } from "./helpers/utils";
+import { ONE_BI, ZERO_BI } from "../utils/constants";
 
 TaffyVoting.VoteConfigCreated.handler(async ({ event, context }) => {
   context.VoteConfig.set({

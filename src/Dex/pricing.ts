@@ -3,9 +3,10 @@ import {
   ONE_BD,
   UNTRACKED_PAIRS,
   ZERO_BD,
-  WETH_ADDRESS,
   MINIMUM_USD_THRESHOLD_NEW_PAIRS,
   MINIMUM_LIQUIDITY_THRESHOLD_ETH,
+  PRICING,
+  onlyUsdcPricing,
 } from "../utils/constants";
 import {
   BigDecimal,
@@ -22,6 +23,17 @@ type GetEthPriceInUsdParams = {
   usdcPair?: Pair;
   usdtPair?: Pair;
 };
+const wethAddress: string = PRICING.wethAddress;
+const whitelist: readonly string[] = PRICING.whitelist;
+const { usdcWethPair, usdtWethPair, daiWethPair } = PRICING.referenceStablePairs;
+
+function getNativeReserve(pair: Pair, stableSide: "token0" | "token1") {
+  return stableSide === "token0" ? pair.reserve1 : pair.reserve0;
+}
+
+function getNativePriceInUsd(pair: Pair, stableSide: "token0" | "token1") {
+  return stableSide === "token0" ? pair.token0Price : pair.token1Price;
+}
 
 export function getEthPriceInUSD({
   daiPair, // dai is token0 => CHECK THIS ON CUSTOM CHAIN
@@ -31,42 +43,53 @@ export function getEthPriceInUSD({
   // fetch eth prices for each stablecoin
 
   // all 3 have been created
-  if (daiPair && usdcPair && usdtPair) {
-    let totalLiquidityETH = daiPair.reserve1
-      .plus(usdcPair.reserve1)
-      .plus(usdtPair.reserve0); // DEPENDING ON THE ORDER OF THE TOKENS
-    let daiWeight = daiPair.reserve1.div(totalLiquidityETH);
-    let usdcWeight = usdcPair.reserve1.div(totalLiquidityETH);
-    let usdtWeight = usdtPair.reserve0.div(totalLiquidityETH);
-    return daiPair.token0Price
+  if (daiPair && usdcPair && usdtPair && daiWethPair && usdcWethPair && daiWethPair && !onlyUsdcPricing) {
+    let totalLiquidityETH = getNativeReserve(daiPair, daiWethPair.stableSide)
+      .plus(getNativeReserve(usdcPair, usdcWethPair.stableSide))
+      .plus(getNativeReserve(usdtPair, usdtWethPair.stableSide));
+
+    let daiWeight = getNativeReserve(daiPair, daiWethPair.stableSide).div(
+      totalLiquidityETH
+    );
+    let usdcWeight = getNativeReserve(usdcPair, usdcWethPair.stableSide).div(
+      totalLiquidityETH
+    );
+    let usdtWeight = getNativeReserve(usdtPair, usdtWethPair.stableSide).div(
+      totalLiquidityETH
+    );
+
+    return getNativePriceInUsd(daiPair, daiWethPair.stableSide)
       .times(daiWeight)
-      .plus(usdcPair.token0Price.times(usdcWeight))
-      .plus(usdtPair.token1Price)
-      .times(usdtWeight);
-  } else if (daiPair && usdtPair) {
+      .plus(
+        getNativePriceInUsd(usdcPair, usdcWethPair.stableSide).times(usdcWeight)
+      )
+      .plus(
+        getNativePriceInUsd(usdtPair, usdtWethPair.stableSide).times(usdtWeight)
+      );
+  } else if (daiPair && usdtPair && daiWethPair && usdtWethPair && !onlyUsdcPricing) {
     // dai and USDT have been created
-    let totalLiquidityETH = daiPair.reserve1.plus(usdtPair.reserve1);
-    let daiWeight = daiPair.reserve1.div(totalLiquidityETH);
-    let usdtWeight = usdtPair.reserve1.div(totalLiquidityETH);
-    return daiPair.token0Price
+    let totalLiquidityETH = getNativeReserve(daiPair, daiWethPair.stableSide)
+      .plus(getNativeReserve(usdtPair, usdtWethPair.stableSide));
+
+    let daiWeight = getNativeReserve(daiPair, daiWethPair.stableSide).div(
+      totalLiquidityETH
+    );
+    let usdtWeight = getNativeReserve(usdtPair, usdtWethPair.stableSide).div(
+      totalLiquidityETH
+    );
+
+    return getNativePriceInUsd(daiPair, daiWethPair.stableSide)
       .times(daiWeight)
-      .plus(usdtPair.token0Price.times(usdtWeight));
-  } else if (usdcPair) {
+      .plus(
+        getNativePriceInUsd(usdtPair, usdtWethPair.stableSide).times(usdtWeight)
+      );
+  } else if (usdcPair && usdcWethPair) {
     // USDC is the only pair so far
-    return usdcPair.token1Price;
+    return getNativePriceInUsd(usdcPair, usdcWethPair.stableSide);
   } else {
     return ZERO_BD;
   }
 }
-
-// token where amounts should contribute to tracked volume and liquidity
-let WHITELIST: string[] = [
-  "0x557a526472372f1F222EcC6af8818C1e6e78A85f", // WOAS,
-  "0xD457DE2ebCE0D70F571718Ad66A28273b5956105", // USDT,
-  "0x739222D8A9179fE05129C77a8fa354049c088CaA", // USDC,
-  "0xf3ad01CF8E4D3ef95f5D480Ec534dD98CAa0555f", // SATS,
-  "0x02D728B9C1513478a6b6de77a92648e1D8F801e7", // DOG
-];
 
 /**
  * Search through graph to find derived Eth per token.
@@ -77,15 +100,15 @@ export async function findEthPerToken(
   factoryContract: Factory,
   context: handlerContext
 ): Promise<BigDecimal> {
-  if (token.id == WETH_ADDRESS) {
+  if (token.id == wethAddress) {
     return ONE_BD;
   }
   // loop through whitelist and check if paired with any
-  for (let i = 0; i < WHITELIST.length; ++i) {
-    let pairAddress = getPairAddress(token.id, WHITELIST[i]);
+  for (let i = 0; i < whitelist.length; ++i) {
+    let pairAddress = getPairAddress(token.id, whitelist[i]);
     // let pairAddress = factoryContract.getPair(
     // 	Address.fromString(token.id),
-    // 	Address.fromString(WHITELIST[i])
+    // 	Address.fromString(whitelist[i])
     // );
     if (pairAddress != ADDRESS_ZERO) {
       let pair = await context.Pair.get(pairAddress);
@@ -146,19 +169,19 @@ export function getTrackedVolumeUSD(
     let reserve0USD = pair.reserve0.times(price0);
     let reserve1USD = pair.reserve1.times(price1);
 
-    if (WHITELIST.includes(token0.id) && WHITELIST.includes(token1.id)) {
+    if (whitelist.includes(token0.id) && whitelist.includes(token1.id)) {
       if (reserve0USD.plus(reserve1USD).lt(MINIMUM_USD_THRESHOLD_NEW_PAIRS)) {
         return ZERO_BD;
       }
     }
-    if (WHITELIST.includes(token0.id) && !WHITELIST.includes(token1.id)) {
+    if (whitelist.includes(token0.id) && !whitelist.includes(token1.id)) {
       if (
         reserve0USD.times(BigDecimal("2")).lt(MINIMUM_USD_THRESHOLD_NEW_PAIRS)
       ) {
         return ZERO_BD;
       }
     }
-    if (!WHITELIST.includes(token0.id) && WHITELIST.includes(token1.id)) {
+    if (!whitelist.includes(token0.id) && whitelist.includes(token1.id)) {
       if (
         reserve1USD.times(BigDecimal("2")).lt(MINIMUM_USD_THRESHOLD_NEW_PAIRS)
       ) {
@@ -168,7 +191,7 @@ export function getTrackedVolumeUSD(
   }
 
   // both are whitelist tokens, take average of both amounts
-  if (WHITELIST.includes(token0.id) && WHITELIST.includes(token1.id)) {
+  if (whitelist.includes(token0.id) && whitelist.includes(token1.id)) {
     return tokenAmount0
       .times(price0)
       .plus(tokenAmount1.times(price1))
@@ -176,12 +199,12 @@ export function getTrackedVolumeUSD(
   }
 
   // take full value of the whitelisted token amount
-  if (WHITELIST.includes(token0.id) && !WHITELIST.includes(token1.id)) {
+  if (whitelist.includes(token0.id) && !whitelist.includes(token1.id)) {
     return tokenAmount0.times(price0);
   }
 
   // take full value of the whitelisted token amount
-  if (!WHITELIST.includes(token0.id) && WHITELIST.includes(token1.id)) {
+  if (!whitelist.includes(token0.id) && whitelist.includes(token1.id)) {
     return tokenAmount1.times(price1);
   }
 
@@ -207,17 +230,17 @@ export function getTrackedLiquidityUSD(
   let price1 = token1.derivedETH.times(bundle.ethPrice);
 
   // both are whitelist tokens, take average of both amounts
-  if (WHITELIST.includes(token0.id) && WHITELIST.includes(token1.id)) {
+  if (whitelist.includes(token0.id) && whitelist.includes(token1.id)) {
     return tokenAmount0.times(price0).plus(tokenAmount1.times(price1));
   }
 
   // take double value of the whitelisted token amount
-  if (WHITELIST.includes(token0.id) && !WHITELIST.includes(token1.id)) {
+  if (whitelist.includes(token0.id) && !whitelist.includes(token1.id)) {
     return tokenAmount0.times(price0).times(BigDecimal("2"));
   }
 
   // take double value of the whitelisted token amount
-  if (!WHITELIST.includes(token0.id) && WHITELIST.includes(token1.id)) {
+  if (!whitelist.includes(token0.id) && whitelist.includes(token1.id)) {
     return tokenAmount1.times(price1).times(BigDecimal("2"));
   }
 

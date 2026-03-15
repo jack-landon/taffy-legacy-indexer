@@ -1,6 +1,6 @@
 import { TaffyLocking } from "generated";
 import { addUser, createLockingSystem } from "./helpers/utils";
-import { ADDRESS_ZERO } from "./helpers/constants";
+import { ADDRESS_ZERO } from "../utils/constants";
 
 TaffyLocking.Transfer.handler(async ({ event, context }) => {
   let [lock, from, to] = await Promise.all([

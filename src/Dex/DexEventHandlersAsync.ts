@@ -15,10 +15,11 @@ import {
 import {
   ADDRESS_ZERO,
   FACTORY_ADDRESS,
-  USDC_WETH_PAIR,
+  usdcWethPair,
   ONE_BI,
   ZERO_BD,
   BI_18,
+  usdtWethPair,
 } from "../utils/constants";
 
 // Swap, Sync and Transfer Events are causing the problems
@@ -290,7 +291,7 @@ TaffyPair.Sync.handler(async ({ event, context }) => {
     context.Pair.get(event.srcAddress),
     context.Factory.get(FACTORY_ADDRESS),
     context.Bundle.get("1"),
-    context.Pair.get(USDC_WETH_PAIR),
+    context.Pair.get(usdcWethPair.pairAddress),
   ]);
 
   if (!factory || !pair) return;

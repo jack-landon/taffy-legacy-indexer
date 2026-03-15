@@ -2,12 +2,9 @@ import {
   Epoch,
   handlerContext,
   LockingSystem,
-  PoolEpoch,
   User,
-  Vote,
 } from "generated";
-import { ZERO_BI } from "./constants";
-import { ZERO_BD } from "../../utils/constants";
+import { ZERO_BD, ZERO_BI } from "../../utils/constants";
 
 export function createLockingSystem(context: handlerContext): LockingSystem {
   const lockingSystem: LockingSystem = {

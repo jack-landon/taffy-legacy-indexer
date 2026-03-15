@@ -1,6 +1,5 @@
 import { Address } from "../types";
 import { erc20Abi, uniswapPairAbiMainnet } from "../../abis/abis";
-import { publicClient } from "./viemHelpers";
 import {
   NATIVE_TOKEN_DECIMALS,
   ZERO_BD,
@@ -10,6 +9,7 @@ import {
   BI_18,
   LP_TOKEN_NAME,
   LP_TOKEN_SYMBOL,
+  publicClient,
 } from "./constants";
 import { BigDecimal } from "generated";
 
