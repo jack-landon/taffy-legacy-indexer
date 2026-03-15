@@ -2,7 +2,6 @@ import { BigDecimal } from "generated";
 import { constants as constantsBaseMainnet } from "../../config/constants-base-mainnet"
 import { constants as constantsBaseSepolia } from "../../config/constants-base-sepolia"
 import { constants as constantsSaakuru } from "../../config/constants-saakuru"
-import { Address } from "../types";
 
 type SupportedChain = "base-mainnet" | "base-sepolia" | 'saakuru'
 const targetChain: SupportedChain = "base-sepolia"
