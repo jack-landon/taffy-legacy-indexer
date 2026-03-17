@@ -17,18 +17,10 @@ export const constants = {
             usdcWethPair: {
                 pairAddress: "0xF1775458F0a6b239703B7De8661433dfE69060d6",
                 stableTokenAddress: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
-                stableSide: "token1", // or "token0"
+                stableSide: "token0",
             },
-            usdtWethPair: {
-                pairAddress: "0x1B80745E18bBbACd99dce87C3602F077d5B912Ff",
-                stableTokenAddress: "0x808456652fdb597867f38412077A9182bf77359F",
-                stableSide: "token1", // dummy
-            },
-            daiWethPair: {
-                pairAddress: "0x1B80745E18bBbACd99dce87C3602F077d5B912Ff",
-                stableTokenAddress: "0xcbB7C0006F23900c38EB856149F799620fcb8A4a",
-                stableSide: "token1", // or "token0"
-            },
+            usdtWethPair: undefined,
+            daiWethPair: undefined,
         },
     },
     publicClient: createPublicClient({
