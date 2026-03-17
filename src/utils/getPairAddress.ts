@@ -8,6 +8,13 @@ export function getPairAddress(tokenA: string, tokenB: string): string {
   const [token0, token1] = sortsBefore(tokenA, tokenB)
     ? [tokenA, tokenB]
     : [tokenB, tokenA]; // does safety checks
+  console.log("About to do create2Address");
+  const create2Address = getCreate2Address(
+    factoryAddress,
+    keccak256(["bytes"], [pack(["address", "address"], [token0, token1])]),
+    INIT_CODE_HASH
+  );
+  console.log({ create2Address })
   return getCreate2Address(
     factoryAddress,
     keccak256(["bytes"], [pack(["address", "address"], [token0, token1])]),

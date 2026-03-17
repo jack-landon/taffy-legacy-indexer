@@ -1,0 +1,88 @@
+# yaml-language-server: $schema=./node_modules/envio/evm.schema.json
+name: taffy-indexer-base
+networks:
+  - id: 8453
+    start_block: 43473550
+    contracts:
+      - name: TaffyFactory
+        address:
+          - 0xEE455a18C845FBd9227286c9BA33DB4F8456EdD3
+        handler: src/Dex/DexEventHandlersFactory.ts
+        events:
+          - event: PairCreated(address indexed token0, address indexed token1, address pair, uint256)
+      - name: TaffyPair
+        address:
+        handler: src/Dex/DexEventHandlersAsync.ts
+        events:
+          - event: Approval(address indexed owner, address indexed spender, uint256 value)
+          - event: Burn(address indexed sender, uint256 amount0, uint256 amount1, address indexed to)
+          - event: Mint(address indexed sender, uint256 amount0, uint256 amount1)
+          - event: Swap(address indexed sender, uint256 amount0In, uint256 amount1In, uint256 amount0Out, uint256 amount1Out, address indexed to)
+          - event: Sync(uint112 reserve0, uint112 reserve1)
+          - event: Transfer(address indexed from, address indexed to, uint256 value)
+      - name: TaffyLocking
+        address:
+          - 0xDF360cA31f4728273C6Dd6c17a43419c532433C4
+        handler: src/Locking/LockingEventHandlers.ts
+        events:
+          - event: Approval(address indexed owner, address indexed approved, uint256 indexed tokenId)
+          - event: ApprovalForAll(address indexed owner, address indexed operator, bool approved)
+          - event: BatchMetadataUpdate(uint256 indexed _fromTokenId, uint256 indexed _toTokenId)
+          - event: Deposit(uint256 indexed tokenId, address indexed provider, uint8 indexed depositType, uint256 amount, uint256 firstEpoch, uint256 finalEpoch, uint256 votingPower)
+          - event: EIP712DomainChanged()
+          - event: MetadataUpdate(uint256 indexed _tokenId)
+          - event: Transfer(address indexed from, address indexed to, uint256 indexed tokenId)
+          - event: Withdraw(address indexed provider, uint256 indexed tokenId, uint256 indexed value)
+      - name: TaffyVoting
+        address:
+          - 0x45d6412dDA65996895A84dd09Cf035A05AD0948a
+        handler: src/Locking/VotingEventHandlers.ts
+        events:
+          - event: GovernanceUpdate(address indexed newGovernance)
+          - event: MultiplierSetterUpdate(address indexed newMultiplierSetter)
+          - event: MultipliersUpdated(address[] voters, uint256[] multipliers)
+          - event: NextEpochSet(uint256 indexed nextEpoch, address[] nextEpochPools, uint256 indexed nextEpochEmissions, uint256 indexed nextEpochStartTimestamp, uint256 nextEpochEndTimestamp)
+          - event: VoteCast(uint256 indexed voteId, address indexed voter, uint256 indexed epoch, uint256 votingPower, uint256 voteConfigId)
+          - event: VoteConfigCreated(uint256 indexed voteConfigId, address[] pools, uint256[] allocatedVotingPowers, uint256[] lockIds)
+          - event: VoteDeleted(uint256 indexed voteId, address indexed voter, uint256 indexed epoch, uint256 existingVoteConfigId)
+          - event: WhitelistedPoolsUpdated(address[] newWhitelistedPools, uint256 indexed epoch)
+      - name: TaffyDistributor
+        address:
+          - 0xAD5842F60022216b93B873CD239983F5b4D4c8B8
+        handler: src/Locking/DistributorEventHandlers.ts
+        events:
+          - event: EpochEmissionToPools(uint256 indexed epoch, uint256 indexed amount, address[] pools, uint256[] poolEmission, uint256[] poolVotingPower)
+      - name: TaffyStakingPoolFactory
+        address:
+          - 0xbdC4816998007D061Ae59d9b4d9e7Ac731e1184E
+        handler: src/Locking/StakingPoolEventHandlers.ts
+        events:
+          - event: StakingPoolDeployed(address indexed poolAddress, address indexed stakingToken, address indexed creator)
+      - name: TaffyStakingPool
+        address:
+        handler: src/Locking/StakingPoolEventHandlers.ts
+        events:
+          - event: Initialized(address indexed stakingToken, address indexed creator)
+          - event: Recovered(address indexed token, uint256 indexed amount)
+          - event: RewardAmountAdded(address indexed rewardToken, uint256 indexed rewardAmountAdded, uint256 newTotalAmount, uint256 newRewardRate, uint256 indexed newPeriodFinish)
+          - event: RewardPaid(address indexed account, address indexed rewardsToken, uint256 indexed reward)
+          - event: RewardTokenRegistered(address indexed rewardToken, address indexed rewardsDistributor)
+          - event: RewardsDurationUpdated(address indexed token, uint256 indexed newDuration)
+          - event: Staked(address indexed account, uint256 indexed amount)
+          - event: Withdrawn(address indexed account, uint256 indexed amount)
+      - name: TaffyFeeManager
+        address:
+          - 0xb3fb01cc25Bdd971728A511B3750c4FC536156D9
+        handler: src/Locking/FeeManagerEventHandlers.ts
+        events:
+          - event: FeeClaimed(address indexed voter, address indexed feeToken, uint256 indexed epoch, uint256 amount)
+          - event: FeeRecorded(address indexed feeToken, uint256 indexed epoch, uint256 indexed amount)
+          - event: ValidatedFeeToken(address indexed feeToken, address indexed token0, address indexed token1)
+          - event: NewFeeManager(address indexed newFeeManager)
+unordered_multichain_mode: true
+preload_handlers: true
+event_decoder: viem
+field_selection:
+  transaction_fields:
+    - "hash"
+    - "from"

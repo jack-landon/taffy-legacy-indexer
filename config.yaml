@@ -1,12 +1,12 @@
 # yaml-language-server: $schema=./node_modules/envio/evm.schema.json
-name: taffy-indexer-base-sepolia
+name: taffy-indexer-base
 networks:
-  - id: 84532
-    start_block: 38799950
+  - id: 8453
+    start_block: 43473550
     contracts:
       - name: TaffyFactory
         address:
-          - 0xF3a077C8B559776509EbD970986F951e0D40a902
+          - 0xEE455a18C845FBd9227286c9BA33DB4F8456EdD3
         handler: src/Dex/DexEventHandlersFactory.ts
         events:
           - event: PairCreated(address indexed token0, address indexed token1, address pair, uint256)

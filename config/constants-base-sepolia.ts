@@ -33,6 +33,6 @@ export const constants = {
     },
     publicClient: createPublicClient({
         chain: baseSepolia,
-        transport: http(),
+        transport: http("https://base-sepolia.g.alchemy.com/v2/zux7OncCZreqC-YpbD30QjP-K9wLQXqN"),
     })
 } as const

@@ -4,7 +4,7 @@ import { constants as constantsBaseSepolia } from "../../config/constants-base-s
 import { constants as constantsSaakuru } from "../../config/constants-saakuru"
 
 type SupportedChain = "base-mainnet" | "base-sepolia" | 'saakuru'
-const targetChain: SupportedChain = "base-sepolia"
+const targetChain: SupportedChain = "base-mainnet"
 export const onlyUsdcPricing = true
 
 const CHAIN_CONFIGS = {
